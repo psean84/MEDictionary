@@ -2,10 +2,88 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MEDictionary"
+             xmlns:CV="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
              x:Class="MEDictionary.MainPage">
 
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
 
+        <SearchBar x:Name="sbSearch" VerticalOptions="Start" Margin="10" Grid.Row="1" />
+        
+        <!--View for successfull result-->
+        <Grid Grid.Row="2" x:Name="gdSResult" IsVisible="False" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0" />
+                <RowDefinition Height="2*"  />
+                <RowDefinition Height="11*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="11*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Row="1" Margin="5" Grid.Column="1" x:Name="stWordPronunciation" >
+                <Label VerticalOptions="Start" HorizontalOptions="Start" FontSize="Large" Margin="2" x:Name="lblWord" />
+                <Label VerticalOptions="Start" HorizontalOptions="Start" FontSize="Small" Margin="10, 5, 0, 0" x:Name="lblPronunciation" />
+            </StackLayout>
+            <Frame HasShadow="False" OutlineColor="Transparent" Grid.Row="1" Grid.Column="2" Padding="0, 0, 0, 20" VerticalOptions="FillAndExpand" x:Name="abBookmark">
+                <Image x:Name="imgBookmark" TranslationY="-40" Margin="0" />
+            </Frame>
+            <StackLayout x:Name="stDictionaries" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2"  >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0" />
+                        <RowDefinition Height="1*"  />
+                        <RowDefinition Height="9*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="0"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Frame  Grid.Column="1" x:Name="frEnglish" Margin="0" Padding="0">
+                            <StackLayout>
+                                <Label Text="English ( इंग्रजी )" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="Transparent"  />
+                                <Image x:Name="imgEnglish" Aspect="AspectFit"  />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Grid.Column="2" x:Name="frMarathi" Margin="0" Padding="0">
+                            <StackLayout>
+                                <Label Text="मराठी ( Marathi )" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Transparent"/>
+                                <Image x:Name="imgMarathi" Aspect="AspectFit" IsVisible="False"/>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                    
+                    <CV:CarouselView x:Name="cvResults" Grid.Row="2" ItemSelected="cvResults_ItemSelected" >
+                        <CV:CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <ScrollView>
+                                    <StackLayout>
+                                        <Label Text="{Binding Definations }" FontSize="Medium" Margin="10" />
+                                        <Label Text="{Binding SentencesLabel }" FontAttributes="Bold"  />
+                                        <Label Text="{Binding Sentences}" FontSize="Medium" Margin="10" />
+                                        <Frame HasShadow="True" Padding="0" Margin="2" HorizontalOptions="Center" SizeChanged="Frame_SizeChanged">
+                                            <Image Source="{Binding ExampleImageURL}"/>
+                                        </Frame>
+                                    </StackLayout>
+                                </ScrollView>
+                            </DataTemplate>
+                        </CV:CarouselView.ItemTemplate>
+                    </CV:CarouselView>
+                </Grid>
+            </StackLayout>
+        </Grid>
+        <!--End for sucessfull result-->
+        
+        <!--View for Unsuccessful or Multiple result-->
+        
+        <!--End of Unsuccessful or Multiple result-->
+    </Grid>
 </ContentPage>
